@@ -1,0 +1,184 @@
+# Khushi Finance - Project TODO
+
+## Phase 1: Core App Structure & Authentication
+- [x] Set up app navigation structure (Auth Stack, Admin Stack, Member Stack)
+- [x] Create authentication context and hooks
+- [x] Build role-based routing logic
+- [x] Implement Admin Login screen (email/password)
+- [x] Implement Member Login screen (mobile number + OTP/password)
+- [x] Implement OTP verification flow
+- [x] Create logout functionality
+- [x] Set up secure token storage (AsyncStorage + SecureStore)
+
+## Phase 2: Multi-Language Support
+- [x] Create i18n configuration (English, Hindi, Gujarati)
+- [ ] Build language selection screen
+- [x] Implement language context and hooks
+- [x] Translate all UI strings to Hindi and Gujarati
+- [x] Add language persistence to AsyncStorage
+- [ ] Test language switching across all screens
+
+## Phase 3: Admin Module - Dashboard & Members
+- [x] Build Admin Dashboard screen with metrics cards
+- [x] Implement pull-to-refresh functionality
+- [x] Build Members List screen with search functionality
+- [x] Implement member search by name and mobile number
+- [x] Build Member Detail screen (Admin view)
+- [x] Create Add Member form with validation
+- [x] Create Edit Member form
+- [x] Implement delete member functionality with confirmation
+- [x] Build member profile view
+
+## Phase 4: Admin Module - Loans & EMI
+- [x] Build Loans List screen with status filters
+- [x] Create Loan Detail screen
+- [x] Implement loan approval/rejection functionality
+- [x] Build EMI Recording screen
+- [x] Implement automatic EMI calculation logic
+- [x] Create payment method selection
+- [x] Build payment history view
+- [x] Implement payment date validation
+- [x] Create receipt generation (PDF)
+
+## Phase 5: Admin Module - Reports & Settings
+- [ ] Build Reports screen with date range selector
+- [ ] Implement daily report generation
+- [ ] Implement monthly report generation
+- [ ] Create PDF export functionality for reports
+- [ ] Create Excel export functionality for reports
+- [ ] Build Admin Settings screen
+- [ ] Implement loan duration configuration (6, 12, 18, 24 months)
+- [ ] Create app settings management
+
+## Phase 6: Member Module - Dashboard & Profile
+- [ ] Build Member Dashboard screen
+- [ ] Display current loan status and balance
+- [ ] Show next installment due date
+- [ ] Create Member Profile screen
+- [ ] Build Member Loan Details screen
+- [ ] Display payment schedule
+- [ ] Show overdue amount calculation
+- [ ] Create Member Settings screen
+
+## Phase 7: Member Module - Payment History & Statements
+- [ ] Build Member Payment History screen
+- [ ] Implement payment history filtering by date
+- [ ] Create Loan Statement download functionality
+- [ ] Implement PDF statement generation
+- [ ] Add receipt download for individual payments
+- [ ] Create statement sharing functionality
+
+## Phase 8: Finance Logic & Calculations
+- [x] Implement interest calculation (2% monthly)
+- [x] Create EMI calculation logic
+- [x] Implement total payable amount calculation
+- [x] Build remaining balance calculation
+- [x] Implement overdue amount calculation
+- [x] Create payment schedule generator
+- [x] Build automatic balance update on payment
+- [x] Implement interest accrual logic
+
+## Phase 9: Database & Backend Integration
+- [ ] Set up Firestore collections (Admins, Members, Loans, Payments, Reports)
+- [ ] Create admin authentication with Firebase Auth
+- [ ] Create member authentication with Firebase Auth
+- [ ] Implement member OTP verification
+- [ ] Build data models for all collections
+- [ ] Create CRUD operations for members
+- [ ] Create CRUD operations for loans
+- [ ] Create CRUD operations for payments
+- [ ] Implement data validation on backend
+
+## Phase 10: PDF & Report Generation
+- [x] Set up PDF generation library
+- [x] Create receipt template
+- [x] Implement receipt PDF generation
+- [ ] Create loan statement template
+- [ ] Implement loan statement PDF generation
+- [ ] Create daily report template
+- [ ] Create monthly report template
+- [ ] Implement Excel export for reports
+- [ ] Test PDF generation on different devices
+
+## Phase 11: UI Polish & Material Design 3
+- [ ] Apply Material Design 3 color scheme
+- [ ] Implement consistent typography
+- [ ] Add proper spacing and padding
+- [ ] Create reusable UI components (buttons, cards, inputs)
+- [ ] Implement proper error handling UI
+- [ ] Add loading states to all screens
+- [ ] Create empty state screens
+- [ ] Implement proper form validation messages
+- [ ] Add success/error toast notifications
+
+## Phase 12: Dark Mode & Accessibility
+- [ ] Test dark mode on all screens
+- [ ] Ensure color contrast meets WCAG AA standards
+- [ ] Implement proper touch target sizes (44x44 minimum)
+- [ ] Add haptic feedback to button presses
+- [ ] Test text scaling up to 200%
+- [ ] Verify keyboard navigation
+- [ ] Add screen reader support labels
+- [ ] Test on different device sizes
+
+## Phase 13: App Branding & Icons
+- [x] Generate custom app logo
+- [x] Create app icon (square, no rounded corners)
+- [x] Create splash screen icon
+- [x] Create Android adaptive icon
+- [x] Update app.config.ts with branding
+- [x] Set app name to "Khushi Finance"
+- [x] Configure app slug and bundle ID
+- [x] Upload logo to S3 and update logoUrl
+
+## Phase 14: Testing & Bug Fixes
+- [ ] Test admin login flow
+- [ ] Test member login flow
+- [ ] Test OTP verification
+- [ ] Test member CRUD operations
+- [ ] Test loan creation and approval
+- [ ] Test EMI recording and calculations
+- [ ] Test payment history display
+- [ ] Test report generation
+- [ ] Test PDF generation
+- [ ] Test language switching
+- [ ] Test dark mode
+- [ ] Test on different screen sizes
+- [ ] Test on different Android versions
+
+## Phase 15: Final Delivery & Documentation
+- [ ] Create comprehensive README
+- [ ] Document API endpoints
+- [ ] Document data models
+- [ ] Create user guide for admin
+- [ ] Create user guide for member
+- [ ] Document installation steps
+- [ ] Create troubleshooting guide
+- [ ] Final code review
+- [ ] Generate APK build
+- [ ] Create release notes
+
+## Extra Features (Future)
+- [ ] WhatsApp payment reminders integration
+- [ ] Push notifications for due dates
+- [ ] Backup and restore functionality
+- [ ] Member portal (web version)
+- [ ] Advanced analytics dashboard
+- [ ] SMS notifications
+- [ ] Email notifications
+- [ ] Bulk member import (CSV)
+- [ ] Bulk payment recording
+- [ ] Member dashboard customization
+
+
+## Phase 16: Savings Pool System
+- [ ] Create Savings Account tracking for each member (₹1000/month)
+- [ ] Build savings deposit recording functionality
+- [ ] Implement monthly profit calculation (2% of total EMI collected)
+- [ ] Create profit distribution logic based on member savings ratio
+- [ ] Build Admin Savings Dashboard showing total pool and distributions
+- [ ] Create Member Savings View showing personal savings and profit earned
+- [ ] Implement profit distribution report generation
+- [ ] Add savings withdrawal request functionality
+- [ ] Create savings history view for members
+- [ ] Build savings reconciliation screen for admin
