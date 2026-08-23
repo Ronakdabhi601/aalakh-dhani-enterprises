@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, RefreshControl, FlatList } from 'react-native';
+import { Alert, View, Text, TouchableOpacity, ScrollView, RefreshControl, FlatList } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
 import { useI18n } from '@/lib/i18n-context';
 import { useAuth } from '@/lib/auth-context';
@@ -34,6 +35,7 @@ interface PaymentHistory {
 export default function MemberDashboardScreen() {
   const { t } = useI18n();
   const { user, signOut } = useAuth();
+  const router = useRouter();
   const colors = useColors();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -87,7 +89,25 @@ export default function MemberDashboardScreen() {
   }, []);
 
   const handleLogout = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      router.replace('/auth/role-selection' as any);
+    }
+  };
+
+  const handleViewAllPayments = () => {
+    Alert.alert('Payment History', 'Your complete payment history will be available soon.');
+  };
+
+  const handleLoanDetails = () => {
+    Alert.alert('Loan Details', 'Detailed loan information will be available soon.');
+  };
+
+  const handleDownloadStatement = () => {
+    Alert.alert('Statement', 'Statement download will be available soon.');
   };
 
   const getStatusColor = (days: number) => {
@@ -276,7 +296,7 @@ export default function MemberDashboardScreen() {
                 <Text className="text-lg font-bold text-foreground">
                   {t('member.paymentHistory')}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleViewAllPayments} activeOpacity={0.7}>
                   <Text className="text-sm text-primary font-semibold">View All</Text>
                 </TouchableOpacity>
               </View>
@@ -306,6 +326,7 @@ export default function MemberDashboardScreen() {
             {/* Action Buttons */}
             <View className="gap-3">
               <TouchableOpacity
+                onPress={handleLoanDetails}
                 className="bg-primary rounded-lg p-4 flex-row items-center justify-between"
                 activeOpacity={0.8}
               >
@@ -319,6 +340,7 @@ export default function MemberDashboardScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity
+                onPress={handleDownloadStatement}
                 className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between"
                 activeOpacity={0.8}
               >

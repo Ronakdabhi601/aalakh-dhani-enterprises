@@ -8,6 +8,11 @@
 - [x] Implement Member Login screen (mobile number + OTP/password)
 - [x] Implement OTP verification flow
 - [x] Create logout functionality
+- [x] Fix logout so auth session storage is cleared and navigation returns to login
+- [x] Diagnose why buttons across the app do not respond to taps
+- [x] Restore shared button interaction and navigation behavior
+- [x] Add focused interaction validation for representative buttons
+- [ ] Add focused logout-flow validation
 - [x] Set up secure token storage (AsyncStorage + SecureStore)
 
 ## Phase 2: Multi-Language Support

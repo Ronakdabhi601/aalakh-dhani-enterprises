@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { Alert, View, Text, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
 import { useI18n } from '@/lib/i18n-context';
 import { useAuth } from '@/lib/auth-context';
@@ -17,6 +18,7 @@ interface DashboardMetrics {
 export default function AdminDashboardScreen() {
   const { t } = useI18n();
   const { user, signOut } = useAuth();
+  const router = useRouter();
   const colors = useColors();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -39,7 +41,17 @@ export default function AdminDashboardScreen() {
   }, []);
 
   const handleLogout = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      router.replace('/auth/role-selection' as any);
+    }
+  };
+
+  const handleViewReports = () => {
+    Alert.alert('Reports', 'Reports are not available yet.');
   };
 
   const MetricCard = ({
@@ -146,6 +158,7 @@ export default function AdminDashboardScreen() {
             </Text>
 
             <TouchableOpacity
+              onPress={() => router.push('/(tabs)/members-management' as any)}
               className="bg-primary rounded-lg p-4 flex-row items-center justify-between"
               activeOpacity={0.8}
             >
@@ -159,6 +172,7 @@ export default function AdminDashboardScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => router.push('/(tabs)/payment-recording' as any)}
               className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between"
               activeOpacity={0.8}
             >
@@ -172,6 +186,7 @@ export default function AdminDashboardScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={handleViewReports}
               className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between"
               activeOpacity={0.8}
             >
@@ -185,6 +200,7 @@ export default function AdminDashboardScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => router.push('/(tabs)/loans-management' as any)}
               className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between"
               activeOpacity={0.8}
             >

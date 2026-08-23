@@ -1,4 +1,5 @@
-import { ScrollView, Text, View, TouchableOpacity, RefreshControl } from 'react-native';
+import { Alert, ScrollView, Text, View, TouchableOpacity, RefreshControl } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useState, useCallback } from 'react';
 import { ScreenContainer } from '@/components/screen-container';
 import { useI18n } from '@/lib/i18n-context';
@@ -8,8 +9,23 @@ import { useAuth } from '@/lib/auth-context';
 export default function HomeScreen() {
   const { t } = useI18n();
   const colors = useColors();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      router.replace('/auth/role-selection' as any);
+    }
+  };
+
+  const handleViewReports = () => {
+    Alert.alert('Reports', 'Reports are not available yet.');
+  };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -63,13 +79,22 @@ export default function HomeScreen() {
       >
         <View className="gap-6 pb-8">
           {/* Header */}
-          <View className="px-6 pt-6">
-            <Text className="text-4xl font-bold text-foreground">
-              Dashboard
-            </Text>
-            <Text className="text-sm text-muted mt-2">
-              Welcome back, {user?.name || 'Admin'}
-            </Text>
+          <View className="px-6 pt-6 flex-row items-center justify-between">
+            <View className="flex-1">
+              <Text className="text-4xl font-bold text-foreground">
+                Dashboard
+              </Text>
+              <Text className="text-sm text-muted mt-2">
+                Welcome back, {user?.name || 'Admin'}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={handleLogout}
+              activeOpacity={0.8}
+              className="bg-error rounded-lg px-4 py-2 ml-3"
+            >
+              <Text className="text-white text-sm font-semibold">{t('common.logout')}</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Quick Stats Grid */}
@@ -141,6 +166,7 @@ export default function HomeScreen() {
 
             <View className="gap-3">
               <TouchableOpacity
+                onPress={() => router.push('/(tabs)/members-management' as any)}
                 className="bg-primary rounded-lg p-4 flex-row items-center justify-between active:opacity-80"
                 activeOpacity={0.8}
               >
@@ -152,6 +178,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity
+                onPress={() => router.push('/(tabs)/payment-recording' as any)}
                 className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between active:opacity-80"
                 activeOpacity={0.8}
               >
@@ -163,6 +190,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity
+                onPress={handleViewReports}
                 className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between active:opacity-80"
                 activeOpacity={0.8}
               >
