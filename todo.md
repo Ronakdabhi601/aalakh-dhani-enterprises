@@ -207,6 +207,8 @@
 - [x] Set EXPO_PUBLIC_API_BASE_URL to https://aalakh-dhani-enterprises.onrender.com for native builds
 - [x] Verify the deployed Render backend returns JSON from the API endpoint
 - [ ] Generate the Android APK using the configured Render backend
+- [x] Update app icon and splash-screen metadata for Aalakh Dhani Enterprises branding
+- [x] Synchronize the required icon, splash, favicon, and Android adaptive assets
 - [x] Replace all user-facing “Khushi Finance” text with “Aalakh Dhani Enterprises” without changing layout or styling
 - [x] Validate the branding replacement and preserve non-display identifiers
 - [x] Replace every remaining exact “Khushi Finance” occurrence across the codebase
