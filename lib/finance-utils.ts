@@ -1,5 +1,5 @@
 /**
- * Finance Utilities for Khushi Finance
+ * Finance Utilities for Aalakh Dhani Enterprises
  * Handles all financial calculations including EMI, interest, and loan management
  */
 

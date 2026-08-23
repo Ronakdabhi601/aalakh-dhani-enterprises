@@ -11,7 +11,7 @@ const translations: Record<Language, Translations> = {
   en: {
     // Common
     common: {
-      appName: 'Khushi Finance',
+      appName: 'Aalakh Dhani Enterprises',
       login: 'Login',
       logout: 'Logout',
       save: 'Save',
@@ -191,7 +191,7 @@ const translations: Record<Language, Translations> = {
   hi: {
     // Common
     common: {
-      appName: 'खुशी फाइनेंस',
+      appName: 'Aalakh Dhani Enterprises',
       login: 'लॉगिन',
       logout: 'लॉगआउट',
       save: 'सहेजें',
@@ -371,7 +371,7 @@ const translations: Record<Language, Translations> = {
   gu: {
     // Common
     common: {
-      appName: 'ખુશી ફાઇનાન્સ',
+      appName: 'Aalakh Dhani Enterprises',
       login: 'લૉગિન',
       logout: 'લૉગઆઉટ',
       save: 'સાચવો',
