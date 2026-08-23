@@ -21,9 +21,7 @@ export const appRouter = router({
           throw new Error("Admin not found");
         }
 
-        // TODO: Implement proper password verification with bcrypt
-        // For demo: simple password check
-        if (input.password !== "admin123") {
+        if (!db.verifyPassword(input.password, admin.passwordHash)) {
           throw new Error("Invalid password");
         }
 
@@ -53,9 +51,7 @@ export const appRouter = router({
           throw new Error("Member not found");
         }
 
-        // TODO: Implement proper password verification with bcrypt
-        // For demo: simple password check
-        if (input.password !== "member123") {
+        if (!db.verifyPassword(input.password, member.passwordHash)) {
           throw new Error("Invalid password");
         }
 

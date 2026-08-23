@@ -36,6 +36,7 @@ export default function MembersManagementScreen() {
   const [formData, setFormData] = useState({
     name: '',
     mobileNumber: '',
+    password: 'member123',
     email: '',
     address: '',
   });
@@ -80,12 +81,13 @@ export default function MembersManagementScreen() {
       const newMember = await createMemberMutation.mutateAsync({
         mobileNumber: formData.mobileNumber,
         name: formData.name,
+        password: formData.password,
         email: formData.email || undefined,
         address: formData.address || undefined,
       });
 
       setMembers([...members, newMember]);
-      setFormData({ name: '', mobileNumber: '', email: '', address: '' });
+      setFormData({ name: '', mobileNumber: '', password: 'member123', email: '', address: '' });
       setShowAddModal(false);
       Alert.alert(t('common.success'), 'Member added successfully with savings account!');
     } catch (error: any) {
@@ -110,7 +112,7 @@ export default function MembersManagementScreen() {
       });
 
       setMembers(members.map((m) => (m.id === updated.id ? updated : m)));
-      setFormData({ name: '', mobileNumber: '', email: '', address: '' });
+      setFormData({ name: '', mobileNumber: '', password: '', email: '', address: '' });
       setShowEditModal(false);
       setSelectedMember(null);
       Alert.alert(t('common.success'), 'Member updated successfully');
@@ -152,6 +154,7 @@ export default function MembersManagementScreen() {
     setFormData({
       name: member.name,
       mobileNumber: member.mobileNumber,
+      password: '',
       email: member.email || '',
       address: member.address || '',
     });
@@ -221,7 +224,7 @@ export default function MembersManagementScreen() {
           {/* Add Member Button */}
           <TouchableOpacity
             onPress={() => {
-              setFormData({ name: '', mobileNumber: '', email: '', address: '' });
+              setFormData({ name: '', mobileNumber: '', password: 'member123', email: '', address: '' });
               setShowAddModal(true);
             }}
             className="bg-primary rounded-lg py-4 items-center"
@@ -275,6 +278,19 @@ export default function MembersManagementScreen() {
               className="bg-surface border border-border rounded-lg px-4 py-3 text-foreground"
               placeholderTextColor={colors.muted}
             />
+
+            <TextInput
+              placeholder="Login Password (min 6 characters)"
+              value={formData.password}
+              onChangeText={(text) => setFormData({ ...formData, password: text })}
+              secureTextEntry
+              className="bg-surface border border-border rounded-lg px-4 py-3 text-foreground"
+              placeholderTextColor={colors.muted}
+            />
+
+            <Text className="text-xs text-muted">
+              This password is used with the member&apos;s 10-digit mobile number to log in.
+            </Text>
 
             <TextInput
               placeholder="Email"

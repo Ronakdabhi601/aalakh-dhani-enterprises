@@ -1,224 +1,148 @@
 import { router, publicProcedure } from './_core/trpc';
 import { z } from 'zod';
-import * as crypto from 'crypto';
+import * as db from './db';
 
-// Mock database - replace with actual database calls
-let membersDb: any[] = [
-  {
-    id: 1,
-    mobileNumber: '9876543210',
-    name: 'Rajesh Kumar',
-    email: 'rajesh@example.com',
-    address: '123 Main Street, City',
-    isActive: 1,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: 2,
-    mobileNumber: '9876543211',
-    name: 'Priya Singh',
-    email: 'priya@example.com',
-    address: '456 Oak Avenue, City',
-    isActive: 1,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+const memberInputSchema = z.object({
+  mobileNumber: z.string().regex(/^\d{10}$/, 'Mobile number must be exactly 10 digits'),
+  name: z.string().trim().min(2, 'Name must be at least 2 characters').max(255),
+  email: z.string().trim().email('Enter a valid email address').max(255).optional(),
+  address: z.string().trim().max(2000).optional(),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(100).optional(),
+});
 
-let savingsDb: any[] = [
-  {
-    id: 1,
-    memberId: 1,
-    monthlyDeposit: 1000,
-    totalSavings: 12000,
-    profitEarned: 2400,
-    lastDepositDate: new Date(),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: 2,
-    memberId: 2,
-    monthlyDeposit: 1000,
-    totalSavings: 10000,
-    profitEarned: 2000,
-    lastDepositDate: new Date(),
-    updatedAt: new Date(),
-  },
-];
+type PublicMember = Omit<db.MemberRecord, 'passwordHash'>;
+
+function toPublicMember(member: db.MemberRecord): PublicMember {
+  const { passwordHash: _passwordHash, ...publicMember } = member;
+  return publicMember;
+}
 
 export const membersRouter = router({
-  // Get all members
+  // Get all members from MySQL/TiDB.
   getAll: publicProcedure.query(async () => {
-    return membersDb;
+    const members = await db.getAllMembers();
+    return members.map(toPublicMember);
   }),
 
-  // Get member by ID
+  // Get member by ID.
   getById: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.number().int().positive() }))
     .query(async ({ input }) => {
-      const member = membersDb.find((m) => m.id === input.id);
+      const member = await db.getMemberById(input.id);
       if (!member) {
         throw new Error('Member not found');
       }
-      return member;
+      return toPublicMember(member);
     }),
 
-  // Get member by mobile number
+  // Get member by mobile number.
   getByMobile: publicProcedure
-    .input(z.object({ mobileNumber: z.string() }))
+    .input(z.object({ mobileNumber: z.string().regex(/^\d{10}$/, 'Mobile number must be exactly 10 digits') }))
     .query(async ({ input }) => {
-      const member = membersDb.find((m) => m.mobileNumber === input.mobileNumber);
+      const member = await db.getMemberByMobileNumber(input.mobileNumber);
       if (!member) {
         throw new Error('Member not found');
       }
-      return member;
+      return toPublicMember(member);
     }),
 
-  // Create new member
+  // Insert a new member and its initial savings account atomically.
   create: publicProcedure
-    .input(
-      z.object({
-        mobileNumber: z.string().min(10),
-        name: z.string().min(2),
-        email: z.string().email().optional(),
-        address: z.string().optional(),
-      })
-    )
+    .input(memberInputSchema)
     .mutation(async ({ input }) => {
-      // Check if member already exists
-      const existing = membersDb.find((m) => m.mobileNumber === input.mobileNumber);
+      const existing = await db.getMemberByMobileNumber(input.mobileNumber);
       if (existing) {
         throw new Error('Member with this mobile number already exists');
       }
 
-      const newMember = {
-        id: Math.max(...membersDb.map((m) => m.id), 0) + 1,
+      const createdMember = await db.createMemberWithSavings({
         mobileNumber: input.mobileNumber,
+        passwordHash: db.hashPassword(input.password ?? 'member123'),
         name: input.name,
         email: input.email || null,
         address: input.address || null,
         isActive: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      });
 
-      membersDb.push(newMember);
-
-      // Create savings account for new member
-      const newSavings = {
-        id: Math.max(...savingsDb.map((s) => s.id), 0) + 1,
-        memberId: newMember.id,
-        monthlyDeposit: 1000,
-        totalSavings: 0,
-        profitEarned: 0,
-        lastDepositDate: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      savingsDb.push(newSavings);
-
-      return newMember;
+      return toPublicMember(createdMember);
     }),
 
-  // Update member
+  // Update editable member fields in MySQL/TiDB.
   update: publicProcedure
     .input(
       z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        email: z.string().email().optional(),
-        address: z.string().optional(),
+        id: z.number().int().positive(),
+        name: z.string().trim().min(2).max(255).optional(),
+        email: z.string().trim().email().max(255).optional(),
+        address: z.string().trim().max(2000).optional(),
       })
     )
     .mutation(async ({ input }) => {
-      const member = membersDb.find((m) => m.id === input.id);
-      if (!member) {
-        throw new Error('Member not found');
-      }
-
-      if (input.name) member.name = input.name;
-      if (input.email) member.email = input.email;
-      if (input.address) member.address = input.address;
-      member.updatedAt = new Date();
-
-      return member;
+      const { id, ...changes } = input;
+      const updatedMember = await db.updateMember(id, {
+        name: changes.name,
+        email: changes.email,
+        address: changes.address,
+      });
+      return toPublicMember(updatedMember);
     }),
 
-  // Delete member
+  // Delete the member and its savings account in one transaction.
   delete: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.number().int().positive() }))
     .mutation(async ({ input }) => {
-      const index = membersDb.findIndex((m) => m.id === input.id);
-      if (index === -1) {
-        throw new Error('Member not found');
-      }
-
-      const deleted = membersDb.splice(index, 1)[0];
-
-      // Also remove savings record
-      const savingsIndex = savingsDb.findIndex((s) => s.memberId === input.id);
-      if (savingsIndex !== -1) {
-        savingsDb.splice(savingsIndex, 1);
-      }
-
-      return deleted;
+      const deletedMember = await db.deleteMember(input.id);
+      return toPublicMember(deletedMember);
     }),
 
-  // Search members by name or mobile
+  // Search members by name or mobile number.
   search: publicProcedure
-    .input(z.object({ query: z.string() }))
+    .input(z.object({ query: z.string().trim() }))
     .query(async ({ input }) => {
       const lowerQuery = input.query.toLowerCase();
-      return membersDb.filter(
-        (m) =>
-          m.name.toLowerCase().includes(lowerQuery) ||
-          m.mobileNumber.includes(lowerQuery)
-      );
+      const members = await db.getAllMembers();
+      return members
+        .filter(
+          (member) =>
+            member.name.toLowerCase().includes(lowerQuery) ||
+            member.mobileNumber.includes(lowerQuery),
+        )
+        .map(toPublicMember);
     }),
 
-  // Get member savings
+  // Get a member's savings record.
   getSavings: publicProcedure
-    .input(z.object({ memberId: z.number() }))
+    .input(z.object({ memberId: z.number().int().positive() }))
     .query(async ({ input }) => {
-      const savings = savingsDb.find((s) => s.memberId === input.memberId);
+      const savings = await db.getSavingsByMemberId(input.memberId);
       if (!savings) {
         throw new Error('Savings record not found');
       }
       return savings;
     }),
 
-  // Record monthly deposit
+  // Record a monthly savings deposit in MySQL/TiDB.
   recordDeposit: publicProcedure
     .input(
       z.object({
-        memberId: z.number(),
+        memberId: z.number().int().positive(),
         amount: z.number().positive(),
       })
     )
     .mutation(async ({ input }) => {
-      const savings = savingsDb.find((s) => s.memberId === input.memberId);
+      const savings = await db.recordSavingsDeposit(input.memberId, input.amount);
       if (!savings) {
         throw new Error('Savings record not found');
       }
-
-      savings.totalSavings += input.amount;
-      savings.lastDepositDate = new Date();
-      savings.updatedAt = new Date();
-
       return savings;
     }),
 
-  // Get all members with savings
+  // Get all members with their savings records.
   getAllWithSavings: publicProcedure.query(async () => {
-    return membersDb.map((member) => {
-      const savings = savingsDb.find((s) => s.memberId === member.id);
-      return {
-        ...member,
-        savings: savings || null,
-      };
-    });
+    const membersWithSavings = await db.getAllMembersWithSavings();
+    return membersWithSavings.map(({ savings, ...member }) => ({
+      ...toPublicMember(member),
+      savings,
+    }));
   }),
 });

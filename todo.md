@@ -140,6 +140,7 @@
 
 ## Phase 14: Testing & Bug Fixes
 - [ ] Test admin login flow
+- [x] Identify configured Admin and Member login credentials or account-creation steps
 - [ ] Test member login flow
 - [ ] Test OTP verification
 - [ ] Test member CRUD operations
@@ -228,3 +229,8 @@
 - [x] Provide the exact Render environment-variable list and identify each value’s secure source
 - [x] Verify whether OWNER_OPEN_ID and VITE_APP_ID are optional for the Render backend’s basic operation
 - [x] Document the minimum safe Render environment configuration and feature limitations
+- [x] Document Member post-login dashboards and available options
+- [x] Document current demo OTP verification implementation and limitations
+- [x] Replace mock Member creation with transactional TiDB/MySQL insertion and initial savings record
+- [x] Add Member login password hashing and Admin form password input
+- [x] Validate database-backed Member CRUD and production backend build
