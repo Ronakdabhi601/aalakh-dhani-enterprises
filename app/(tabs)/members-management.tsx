@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, FlatList, Modal } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
 import { useI18n } from '@/lib/i18n-context';
@@ -21,6 +21,10 @@ export default function MembersManagementScreen() {
   const { t } = useI18n();
   const colors = useColors();
   const router = useRouter();
+  const trpcUtils = trpc.useUtils();
+  const createMemberMutation = trpc.members.create.useMutation();
+  const updateMemberMutation = trpc.members.update.useMutation();
+  const deleteMemberMutation = trpc.members.delete.useMutation();
 
   const [members, setMembers] = useState<Member[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,23 +40,23 @@ export default function MembersManagementScreen() {
     address: '',
   });
 
-  // Load members on mount
-  useEffect(() => {
-    loadMembers();
-  }, []);
-
-  const loadMembers = async () => {
+  const loadMembers = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await trpc.members.getAll.useQuery();
-      setMembers(response.data || []);
+      const response = await trpcUtils.members.getAll.fetch();
+      setMembers(response || []);
     } catch (error) {
       console.error('Failed to load members:', error);
       Alert.alert(t('common.error'), 'Failed to load members');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [t, trpcUtils]);
+
+  // Load members on mount
+  useEffect(() => {
+    void loadMembers();
+  }, [loadMembers]);
 
   const filteredMembers = members.filter(
     (member) =>
@@ -73,7 +77,7 @@ export default function MembersManagementScreen() {
 
     setIsLoading(true);
     try {
-      const newMember = await trpc.members.create.useMutation().mutateAsync({
+      const newMember = await createMemberMutation.mutateAsync({
         mobileNumber: formData.mobileNumber,
         name: formData.name,
         email: formData.email || undefined,
@@ -98,7 +102,7 @@ export default function MembersManagementScreen() {
 
     setIsLoading(true);
     try {
-      const updated = await trpc.members.update.useMutation().mutateAsync({
+      const updated = await updateMemberMutation.mutateAsync({
         id: selectedMember.id,
         name: formData.name || undefined,
         email: formData.email || undefined,
@@ -128,7 +132,7 @@ export default function MembersManagementScreen() {
           onPress: async () => {
             setIsLoading(true);
             try {
-              await trpc.members.delete.useMutation().mutateAsync({ id: member.id });
+              await deleteMemberMutation.mutateAsync({ id: member.id });
               setMembers(members.filter((m) => m.id !== member.id));
               Alert.alert(t('common.success'), 'Member deleted successfully');
             } catch (error: any) {

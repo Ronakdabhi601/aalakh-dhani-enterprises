@@ -184,3 +184,5 @@
 - [ ] Build savings reconciliation screen for admin
 - [x] Change monthly member profit distribution from savings-ratio based to an equal split across all members
 - [x] Update savings pool wording to explain that profit is shared equally among members
+- [x] Move members.create, members.update, and members.delete mutation hooks to component scope
+- [x] Replace loadMembers useQuery hook usage with trpc.useUtils().members.getAll.fetch()
