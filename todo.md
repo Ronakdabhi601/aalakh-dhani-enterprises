@@ -197,10 +197,11 @@
 - [ ] Set up a separate Web/Fullstack backend project for the mobile app
 - [x] Prepare Render deployment configuration for the backend
 - [ ] Connect the backend repository to Render and configure its service environment
-- [ ] Connect this project to the user-created GitHub repository
-- [ ] Push the clean project source to GitHub without secrets or build artifacts
+- [x] Connect this project to the user-created GitHub repository
+- [x] Push the clean project source to GitHub without secrets or build artifacts
 - [x] Provide exact terminal commands for the user to push this project to the new GitHub repository
 - [ ] Provide exact browser steps for uploading the source archive to the user’s empty GitHub repository
-- [ ] Push the clean project source to Ronakdabhi601/aalakh-dhani-enterprises using an authorized GitHub connection
-- [ ] Keep GitHub tokens out of chat, source files, commits, and project environment
+- [x] Push the clean project source to Ronakdabhi601/aalakh-dhani-enterprises using an authorized GitHub connection
+- [x] Keep GitHub tokens out of chat, source files, commits, and project environment
 - [ ] Connect the deployed backend URL to the mobile app’s EXPO_PUBLIC_API_BASE_URL
+- [x] Provide the exact Render environment-variable list and identify each value’s secure source

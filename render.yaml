@@ -17,7 +17,7 @@ services:
       - key: VITE_APP_ID
         sync: false
       - key: OAUTH_SERVER_URL
-        value: https://api.manus.ai
+        value: https://api.manus.im
       - key: VITE_OAUTH_PORTAL_URL
         value: https://manus.im
       - key: OWNER_OPEN_ID
