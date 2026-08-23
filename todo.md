@@ -186,3 +186,15 @@
 - [x] Update savings pool wording to explain that profit is shared equally among members
 - [x] Move members.create, members.update, and members.delete mutation hooks to component scope
 - [x] Replace loadMembers useQuery hook usage with trpc.useUtils().members.getAll.fetch()
+- [x] Inspect project environment and deployment settings for the correct backend base URL
+- [ ] Configure EXPO_PUBLIC_API_BASE_URL for native builds after verifying the backend endpoint
+- [ ] Validate the native API endpoint and prepare the project for publish if no stable deployment exists
+- [ ] Publish the project through the Management UI to obtain a stable backend URL
+- [ ] Set EXPO_PUBLIC_API_BASE_URL to the permanent published backend URL
+- [ ] Generate the Android APK using the published backend configuration
+- [ ] Identify the website/backend deployment option separate from mobile app publishing
+- [ ] Deploy the backend and obtain a permanent API URL before configuring the native app
+- [ ] Set up a separate Web/Fullstack backend project for the mobile app
+- [x] Prepare Render deployment configuration for the backend
+- [ ] Connect the backend repository to Render and configure its service environment
+- [ ] Connect the deployed backend URL to the mobile app’s EXPO_PUBLIC_API_BASE_URL
