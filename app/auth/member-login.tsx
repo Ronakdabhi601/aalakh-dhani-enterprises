@@ -77,7 +77,7 @@ export default function MemberLoginScreen() {
       setOtpSent(false);
       setOtp('');
     } else {
-      router.navigate('role-selection' as any);
+      router.replace('/auth/role-selection' as any);
     }
   };
 

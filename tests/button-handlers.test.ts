@@ -25,4 +25,17 @@ describe('dashboard interaction wiring', () => {
     expect(memberSource).toContain('onPress={handleLoanDetails}');
     expect(memberSource).toContain('onPress={handleDownloadStatement}');
   });
+
+  it('registers the actual auth route and uses absolute auth navigation paths', () => {
+    const rootLayout = read('app/_layout.tsx');
+    const roleSelection = read('app/auth/role-selection.tsx');
+    const adminLogin = read('app/auth/admin-login.tsx');
+    const memberLogin = read('app/auth/member-login.tsx');
+
+    expect(rootLayout).toContain('<Stack.Screen name="auth" />');
+    expect(roleSelection).toContain("router.push('/auth/admin-login' as any)");
+    expect(roleSelection).toContain("router.push('/auth/member-login' as any)");
+    expect(adminLogin).toContain("router.replace('/auth/role-selection' as any)");
+    expect(memberLogin).toContain("router.replace('/auth/role-selection' as any)");
+  });
 });

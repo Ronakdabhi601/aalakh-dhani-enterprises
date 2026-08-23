@@ -12,7 +12,9 @@
 - [x] Diagnose why buttons across the app do not respond to taps
 - [x] Restore shared button interaction and navigation behavior
 - [x] Add focused interaction validation for representative buttons
-- [ ] Add focused logout-flow validation
+- [x] Add focused logout-flow validation
+- [x] Fix logout redirect from Expo development route list to role-selection/login screen
+- [x] Validate logout navigation in the native development flow
 - [x] Set up secure token storage (AsyncStorage + SecureStore)
 
 ## Phase 2: Multi-Language Support
@@ -212,6 +214,7 @@
 - [x] Set EXPO_PUBLIC_API_BASE_URL to https://aalakh-dhani-enterprises.onrender.com for native builds
 - [x] Verify the deployed Render backend returns JSON from the API endpoint
 - [ ] Generate the Android APK using the configured Render backend
+- [ ] Generate an Android APK from the latest button and logout fixes for device testing
 - [x] Update app icon and splash-screen metadata for Aalakh Dhani Enterprises branding
 - [x] Synchronize the required icon, splash, favicon, and Android adaptive assets
 - [x] Replace all user-facing “Khushi Finance” text with “Aalakh Dhani Enterprises” without changing layout or styling

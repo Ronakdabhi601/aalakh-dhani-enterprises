@@ -35,7 +35,7 @@ export default function AdminLoginScreen() {
   };
 
   const handleBack = () => {
-    router.navigate('role-selection' as any);
+    router.replace('/auth/role-selection' as any);
   };
 
   return (

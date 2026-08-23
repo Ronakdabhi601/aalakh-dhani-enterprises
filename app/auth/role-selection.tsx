@@ -10,11 +10,11 @@ export default function RoleSelectionScreen() {
   const colors = useColors();
 
   const handleAdminPress = () => {
-    router.navigate('admin-login' as any);
+    router.push('/auth/admin-login' as any);
   };
 
   const handleMemberPress = () => {
-    router.navigate('member-login' as any);
+    router.push('/auth/member-login' as any);
   };
 
   return (
