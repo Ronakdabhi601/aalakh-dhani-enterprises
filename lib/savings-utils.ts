@@ -3,7 +3,7 @@
  * 
  * Each member contributes ₹1000/month to the savings pool
  * Monthly profit = Total EMI collected × 2% interest rate
- * Profit is distributed to members based on their savings ratio
+ * Profit is distributed equally among all members
  */
 
 export interface MemberSavings {
@@ -32,20 +32,16 @@ export function calculateMonthlyProfit(totalEMICollected: number): number {
 }
 
 /**
- * Calculate member's profit share based on savings ratio
- * Member Profit = (Member Savings / Total Savings) × Monthly Profit
+ * Calculate the same profit share for each member.
+ * Member Profit = Monthly Profit / Total Members
  */
 export function calculateMemberProfitShare(
-  memberSavings: number,
-  totalPoolSavings: number,
+  totalMembers: number,
   monthlyProfit: number
 ): number {
-  if (totalPoolSavings === 0) return 0;
-  
-  const savingsRatio = memberSavings / totalPoolSavings;
-  const memberProfit = Math.round(savingsRatio * monthlyProfit * 100) / 100;
-  
-  return memberProfit;
+  if (totalMembers <= 0) return 0;
+
+  return Math.round((monthlyProfit / totalMembers) * 100) / 100;
 }
 
 /**
@@ -55,22 +51,14 @@ export function distributeProfitToMembers(
   members: MemberSavings[],
   monthlyProfit: number
 ): MemberSavings[] {
-  const totalSavings = members.reduce((sum, m) => sum + m.totalSavings, 0);
-  
-  if (totalSavings === 0) return members;
-  
-  return members.map(member => {
-    const memberShare = calculateMemberProfitShare(
-      member.totalSavings,
-      totalSavings,
-      monthlyProfit
-    );
-    
-    return {
-      ...member,
-      profitEarned: member.profitEarned + memberShare,
-    };
-  });
+  if (members.length === 0) return members;
+
+  const memberShare = calculateMemberProfitShare(members.length, monthlyProfit);
+
+  return members.map(member => ({
+    ...member,
+    profitEarned: member.profitEarned + memberShare,
+  }));
 }
 
 /**

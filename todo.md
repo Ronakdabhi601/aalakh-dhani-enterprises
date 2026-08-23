@@ -175,10 +175,12 @@
 - [ ] Create Savings Account tracking for each member (₹1000/month)
 - [ ] Build savings deposit recording functionality
 - [ ] Implement monthly profit calculation (2% of total EMI collected)
-- [ ] Create profit distribution logic based on member savings ratio
+- [x] Create profit distribution logic with equal split across all members (updated from savings-ratio distribution)
 - [ ] Build Admin Savings Dashboard showing total pool and distributions
 - [ ] Create Member Savings View showing personal savings and profit earned
 - [ ] Implement profit distribution report generation
 - [ ] Add savings withdrawal request functionality
 - [ ] Create savings history view for members
 - [ ] Build savings reconciliation screen for admin
+- [x] Change monthly member profit distribution from savings-ratio based to an equal split across all members
+- [x] Update savings pool wording to explain that profit is shared equally among members

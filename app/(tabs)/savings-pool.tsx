@@ -252,7 +252,7 @@ export default function SavingsPoolScreen() {
 
             <View className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <Text className="text-xs text-blue-700">
-                💡 Profit will be distributed to members based on their savings ratio in the pool.
+                💡 Profit will be divided equally among all members, regardless of their savings amount.
               </Text>
             </View>
 
