@@ -204,4 +204,13 @@
 - [x] Push the clean project source to Ronakdabhi601/aalakh-dhani-enterprises using an authorized GitHub connection
 - [x] Keep GitHub tokens out of chat, source files, commits, and project environment
 - [ ] Connect the deployed backend URL to the mobile app’s EXPO_PUBLIC_API_BASE_URL
+- [x] Set EXPO_PUBLIC_API_BASE_URL to https://aalakh-dhani-enterprises.onrender.com for native builds
+- [x] Verify the deployed Render backend returns JSON from the API endpoint
+- [ ] Generate the Android APK using the configured Render backend
+- [x] Identify a current free MySQL/TiDB provider compatible with Render
+- [x] Document database creation, schema migration, and DATABASE_URL setup steps
+- [ ] Identify secure sources for Render DATABASE_URL, VITE_APP_ID, OWNER_OPEN_ID, and Forge credentials
+- [ ] Provide exact Render setup guidance without exposing account-specific secrets
 - [x] Provide the exact Render environment-variable list and identify each value’s secure source
+- [x] Verify whether OWNER_OPEN_ID and VITE_APP_ID are optional for the Render backend’s basic operation
+- [x] Document the minimum safe Render environment configuration and feature limitations
