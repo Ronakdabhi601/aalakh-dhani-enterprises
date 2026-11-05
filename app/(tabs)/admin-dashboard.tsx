@@ -214,6 +214,19 @@ export default function AdminDashboardScreen() {
             </TouchableOpacity>
           </View>
 
+          {/* Business Finance */}
+          <TouchableOpacity
+            onPress={() => router.push('/business' as any)}
+            className="bg-surface border border-border rounded-lg p-4 flex-row items-center justify-between"
+            activeOpacity={0.8}
+          >
+            <View className="flex-row items-center gap-3">
+              <Text className="text-2xl">💼</Text>
+              <Text className="text-foreground font-semibold">Business Finance</Text>
+            </View>
+            <Text className="text-foreground text-lg">→</Text>
+          </TouchableOpacity>
+
           {/* Recent Activity */}
           <View className="gap-3">
             <Text className="text-lg font-semibold text-foreground">
