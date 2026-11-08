@@ -21,8 +21,6 @@ export const ENTRY_TYPES: EntryType[] = [
   { id: 'installment_received', label: 'આવેલો હપ્તો', hint: 'installment received', direction: 'in', icon: '₹' },
   { id: 'interest_received', label: 'આવેલ વ્યાજ', hint: 'interest received', direction: 'in', icon: '%' },
   { id: 'deduction_received', label: 'આવેલ કપાત', hint: 'deduction received', direction: 'in', icon: '−' },
-  { id: 'expense', label: 'ખર્ચ', hint: 'expense', direction: 'out', icon: '↘' },
-  { id: 'payment_made', label: 'ચૂકવણી', hint: 'payment made', direction: 'out', icon: '↗' },
 ];
 
 export interface BusinessEntry {
