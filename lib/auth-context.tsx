@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { trpc } from '@/lib/trpc';
+import { createTRPCClient } from '@/lib/trpc';
 
 export type UserRole = 'admin' | 'member';
 
@@ -58,7 +58,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Call tRPC admin login endpoint
-      const response = await (trpc.admin.login as any)({ email, password });
+      const client = createTRPCClient();
+      const response = await (client as any).admin.login.mutate({ email, password });
       
       if (response.success && response.admin) {
         const authUser: AuthUser = {
@@ -86,7 +87,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Call tRPC member login endpoint
-      const response = await (trpc.member.login as any)({ mobileNumber, password });
+      const client = createTRPCClient();
+      const response = await (client as any).member.login.mutate({ mobileNumber, password });
       
       if (response.success && response.member) {
         const authUser: AuthUser = {
@@ -114,7 +116,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Call tRPC OTP verification endpoint
-      const response = await (trpc.member.verifyOTP as any)({ mobileNumber, otp });
+      const client = createTRPCClient();
+      const response = await (client as any).member.verifyOTP.mutate({ mobileNumber, otp });
       
       if (response.success && response.member) {
         const authUser: AuthUser = {
