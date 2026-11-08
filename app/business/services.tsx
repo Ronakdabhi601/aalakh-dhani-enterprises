@@ -25,6 +25,13 @@ export default function ServicesScreen() {
       onPress: () => router.push('/business/emi-calculator' as any),
     },
     {
+      id: 'interest',
+      icon: '%',
+      title: 'Interest Calculator',
+      description: 'Work out the interest only, on the full loan amount.',
+      onPress: () => router.push('/business/interest-calculator' as any),
+    },
+    {
       id: 'finance',
       icon: '🏦',
       title: 'Business Finance',
