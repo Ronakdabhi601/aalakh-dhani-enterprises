@@ -5,7 +5,7 @@ import { BrandHeader, Card, SectionHeader, useGoBack } from '@/components/busine
 import { formatINR } from '@/lib/business-data';
 import { BIZ } from '@/lib/business-theme';
 
-const TENURES = [3, 6, 12, 18, 24, 36];
+const TENURES = [1, 3, 6, 12, 18, 24, 36];
 
 interface InterestResult {
   monthlyInterest: number;
