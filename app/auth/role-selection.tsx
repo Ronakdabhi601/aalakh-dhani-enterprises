@@ -77,6 +77,17 @@ export default function RoleSelectionScreen() {
             </View>
           </TouchableOpacity>
 
+          {/* TEMPORARY TEST SHORTCUT - remove before merging */}
+          <TouchableOpacity
+            onPress={() => router.push('/business' as any)}
+            activeOpacity={0.7}
+            className="w-full bg-primary rounded-2xl p-4"
+          >
+            <Text className="text-white font-semibold text-center">
+              TEST: Business Finance (temporary)
+            </Text>
+          </TouchableOpacity>
+
           {/* Version Info */}
           <Text className="text-xs text-muted mt-4">
             {t('common.version')}: 1.0.0
